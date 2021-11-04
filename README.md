@@ -8,6 +8,6 @@ BOT_TOKEN=
 ```js
 const settings = {
   file: 'chats.json',
-  publish: [18, 0]
+  times: [[18, 0]]
 }
 ```

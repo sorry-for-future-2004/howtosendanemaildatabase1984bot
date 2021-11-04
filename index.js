@@ -1,5 +1,6 @@
 require('dotenv').config()
 const state = require('./utils/state.js')
+const utils = require('./utils/utils.js')
 const telegram = require('./utils/telegram.js')
 
 async function init () {
@@ -8,11 +9,18 @@ async function init () {
 
   setInterval(() => {
     const d = new Date()
-    if (d.getHours() === state.settings.publish[0] && d.getMinutes() === state.settings.publish[1]) {
-      /* send out chats */
-      /* remove chats */ /* db.drop() */
-      console.log('lessgooo')
-    }
+    state.settings.times.map((time) => {
+      if (d.getHours() === time[0] && d.getMinutes() === time[1]) {
+        try {
+          const subscribers = utils.sendAll()
+          state.drop()
+          console.log(`shared chat w/ ${subscribers.map((s) => s.address).join(', ')}`)
+        } catch (error) {
+          console.log(error)
+          console.log(`no messages to send`)
+        }
+      }
+    })
   }, 1000 * 60)
 }
 

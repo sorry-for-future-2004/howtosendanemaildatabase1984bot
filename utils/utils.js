@@ -46,8 +46,27 @@ function send (chatId) {
   }
 }
 
+function sendAll () {
+  try {
+    const chatIds = state.get('chatIds')
+    chatIds.map((chatId) => {
+      const messages = state.getChat(chatId)
+      if (messages.length === 0) throw new Error('no-messages')
+      const html = messages.map((message) => `${message.name}, ${new Date(message.date).toISOString()}<br>${message.text}`).join('<br><br>')
+      const subscribers = state.getSubscribers(chatId)
+      subscribers.map((subscriber) => {
+        mail.send(subscriber.address, `Chats from ${chatId}`, html)
+      })
+    })
+    return 
+  } catch (error) {
+    return error
+  }
+}
+
 module.exports = {
   add,
   remove,
-  send
+  send,
+  sendAll
 }
