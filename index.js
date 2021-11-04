@@ -1,9 +1,6 @@
 require('dotenv').config()
-const state = require('./state.js')
-const mail = require('./mail.js')
-const telegram = require('./telegram.js')
-
-console.log(state)
+const state = require('./utils/state.js')
+const telegram = require('./utils/telegram.js')
 
 async function init () {
   await state.init()
@@ -16,7 +13,6 @@ async function init () {
       /* remove chats */ /* db.drop() */
       console.log('lessgooo')
     }
-    console.log(state)
   }, 1000 * 60)
 }
 

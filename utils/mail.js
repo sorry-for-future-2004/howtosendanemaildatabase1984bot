@@ -1,5 +1,4 @@
 require('dotenv').config()
-const state = require('./state.js')
 const nodemailer = require('nodemailer')
 
 const transporter = nodemailer.createTransport({
@@ -20,7 +19,7 @@ function send (address, subject, html) {
     if (error) {
       console.log(error)
     } else {
-      console.log('email sent', address, subject)
+      console.log(subject, address, html)
     }
   })
 }

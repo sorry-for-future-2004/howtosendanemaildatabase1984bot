@@ -12,7 +12,7 @@ let state = {
   chatIds: []
 }
 
-function getSubscribers(chatId) {
+function getSubscribers (chatId) {
   const subscribers = state.subscribers.filter((subscriber) => subscriber.chatId === chatId)
   if (subscribers.length === 0) {
     throw new Error('no subscribers')
@@ -33,8 +33,7 @@ function get (key) {
   return state[key]
 }
 
-function mutate (key, value) {
-  console.log(key, value)
+function give (key, value) {
   switch(key) {
     case 'store':
       state[key].push(value)
@@ -54,8 +53,18 @@ function mutate (key, value) {
   }
 }
 
+function take (key, value) {
+  switch(key) {
+    default:
+      if (JSON.stringify(state[key]).includes(JSON.stringify(value))) {
+        state[key] = state[key].filter((item) => JSON.stringify(item) !== JSON.stringify(value))
+      } else {
+        throw new Error('not a subscriber/chat')
+      }
+  }
+}
+
 function save () {
-  console.log('savin', JSON.stringify(state, null, 2))
   fs.writeFile(path.join(__dirname, settings.file), JSON.stringify(state, null, 2), 'utf8', (err, data) => {
     if (err) console.log(err)
   })
@@ -69,7 +78,6 @@ function load () {
 
     if (data) {
       state = JSON.parse(data)
-      console.log(state)
     }
   })
 }
@@ -104,7 +112,8 @@ module.exports = {
   store,
   drop,
   get,
-  mutate,
+  give,
+  take,
   getChat,
   getSubscribers,
   settings,
