@@ -3,7 +3,7 @@ const path = require('path')
 
 const settings = {
   file: 'chats.json',
-  times: [[18, 0]]
+  times: [[12, 0], [18, 0]]
 }
 
 let state = {

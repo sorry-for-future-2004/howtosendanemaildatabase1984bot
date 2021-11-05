@@ -12,12 +12,10 @@ async function init () {
     state.settings.times.map((time) => {
       if (d.getHours() === time[0] && d.getMinutes() === time[1]) {
         try {
-          const subscribers = utils.sendAll()
+          utils.sendAll()
           state.drop()
-          console.log(`shared chat w/ ${subscribers.map((s) => s.address).join(', ')}`)
         } catch (error) {
           console.log(error)
-          console.log(`no messages to send`)
         }
       }
     })
